@@ -1,0 +1,6 @@
+IO_LOC "pixel_pin" 28;
+IO_PORT "pixel_pin" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+IO_LOC "sys_rst_n" 13;
+IO_PORT "sys_rst_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+IO_LOC "sys_clk" 47;
+IO_PORT "sys_clk" IO_TYPE=LVCMOS33 PULL_MODE=UP;
