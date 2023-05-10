@@ -223,9 +223,8 @@ module ws2812b_up_down #(parameter PIXEL_CNT=12)
   reg [11:0] pixel_cnt = 0;
   reg        enable = 0;
   reg [4:0]  pixel_idx = 0;
-  reg [23:0] pixels [PIXEL_CNT-1:0];
-  reg [4:0]  i;
-
+  reg [23:0] pixels [6:0];
+  
   initial 
   begin
 
@@ -236,10 +235,7 @@ module ws2812b_up_down #(parameter PIXEL_CNT=12)
      pixels[2]  = 24'b00000000_11100000_00000000;
      pixels[3]  = 24'b00000000_00011000_00000000;
      pixels[4]  = 24'b00000000_00000100_00000000;
-     for (i = 5; i < PIXEL_CNT; i = i + 1)
-     begin 
-         pixels[i] = 24'b0;
-     end
+     pixels[5]  = 24'b00000000_00000000_00000000;
     
   end
 
@@ -262,7 +258,10 @@ module ws2812b_up_down #(parameter PIXEL_CNT=12)
      begin
          if (pixel_cnt < PIXEL_CNT)
          begin
-            pixel_idx = (pixel_cnt + (PIXEL_CNT - start_index)) % PIXEL_CNT;
+            if (((pixel_cnt + (PIXEL_CNT - start_index)) % PIXEL_CNT) <=4 )
+               pixel_idx = ((pixel_cnt + (PIXEL_CNT - start_index)) % PIXEL_CNT);
+            else 
+               pixel_idx = 5;
             pixel_cnt = pixel_cnt + 5'b1;
             enable = 1;
             if (pixel_cnt == PIXEL_CNT)
@@ -327,6 +326,7 @@ module test_ws2812b (input sys_clk,
  // two examples...  use only one at a time
 
 
+
   ws2812b_rotate ws2812b_driver(clk_ws2812b,
                                 word_clk,
                                 sys_rst_n,
@@ -341,6 +341,6 @@ module test_ws2812b (input sys_clk,
                                                pixel_pin);
 
 
-*/
 
+*/
 endmodule
